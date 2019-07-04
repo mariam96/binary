@@ -68,17 +68,64 @@ module.exports = {
         res.send({ success: true, msg: "sucessfull" })
         console.log("While End")
     },
-    traversenode: function(data){
-        console.log(data)
-        Node.findOne({_id: data}).exec(function(err,result){
-            if(err) {
-                throw err;
-            }
-            if(result){
-                console.log(result);
-                // dfs(result)
-            }
-        })
+    
+    getsubtree: async function getsubtree(node,res,arry){
+        return new Promise(async(resolve,reject)=>{
+           
+       
+        console.log("array")
+        console.log(arry.length)
+        
+        
+        await Node.findOne({_id: node}).exec(async function(err,result){
 
+            console.log(result)
+            if(result){
+                if(result.left_node !==null){
+                   await Node.findOne({_id:result.left_node}).exec(async function(err,result){
+                       
+                       
+                       
+                        left_id =result._id
+                        arry.push(result);
+                       await getsubtree(result._id,res, arry);
+                      
+
+                    })
+                }
+                if(result.right_node !==null){
+                   await Node.findOne({_id:result.right_node}).exec(async function(err,result){
+                      
+                       // res.send({status: true, data:result})
+                        console.log("rigth-result",result)
+                        arry.push(result);                     
+                       await getsubtree(result._id,res, arry);
+
+                        
+                    })
+                }
+                 
+            }
+        });
+         // return arry;
+        
+      })
+        console.log('dddddddddddddddddddddddddddddddddddddddddddddddddd')  
+          console.log("arry1***********************************************88",arry)
+           resolve(arry) 
     }
+    
+
 }
+
+// factorial = function(x) { 
+
+//     if (x === 0)
+//      {
+//         return 1;
+//      }
+//        return x * factorial(x - 1);
+     
+             
+// }
+//   console.log(factorial(5));

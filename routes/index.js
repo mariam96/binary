@@ -14,6 +14,6 @@ router.post('/insert', function(req,res){
 });
 router.get("/search/:id", function(req,res){
 	console.log("in searching")
-	nodes.searchnode(req,res)
+	nodes.getnode(req,res)
 })
 module.exports = router;

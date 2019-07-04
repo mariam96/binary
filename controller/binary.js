@@ -10,11 +10,22 @@ module.exports ={
 		console.log(value)
 		// service.RootNode(value);
 		service.addnode(value,res);
+		// service.factorial(5);
+
 	},
-	searchnode: function(req,res){
-		value = req.body
+	getnode: async function(req,res){
+		value = req.body._id
 		console.log(value)
-		service.traversenode()
+		var arry=[];
+		 await service.getsubtree(value,res, arry).then(async(response)=>{
+		 	console.log("response",response)
+		 },error=>{
+		 	console.log("err",err)
+		 });
+		console.log("t",t)
+		res.send({status:true, data:t
+		})
+
 	} 
 }
 		
